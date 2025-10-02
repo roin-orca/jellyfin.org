@@ -5,9 +5,7 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  pull_request_target:
-  push:
-    branches: [master]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,14 +17,14 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           cache: npm
           node-version: 20
-      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+      - name: Configure Pages
+        if: github.event_name == 'push' && github.repository == 'jellyfin/jellyfin.org'
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
       - name: Run build
         run: |
           npm ci --no-audit
